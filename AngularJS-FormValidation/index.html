@@ -1,0 +1,73 @@
+﻿<!DOCTYPE html>
+<html ng-app="angularformvalidation">
+<head>
+    <meta charset="utf-8" />
+    <title>AngularJS - Form Validation</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.4/angular.min.js"></script>
+    <script src="index.js"></script>
+    <style>
+        input.ng-invalid {
+            background-color: lightpink;
+        }
+
+        input.ng-valid {
+            background-color: lightgreen;
+        }
+    </style>
+</head>
+<body ng-controller="FormValidationController">
+    <form name="formvalidation" novalidate> 
+        <div class="container">
+            <div class="col-sm-8 col-sm-offset-2">
+
+                <!-- Page Header -->
+                <div class="page-header"><h1>AngularJS - Form Validation</h1></div>
+                <!-- Name -->
+                <!-- Here In The Error Messages, I Give ng-show with condition For Both Max. and Min. Error Messages Because That It Had To Show Only One Message Instead Of Showing Two Messages Min/Max or Pattern Message, when If Both Messages are showing I restricted It To Display only Pattern Error Message -->
+                <!-- If submitted is true then it looks for validation -->
+                <div class="form-group" ng-class="{ 'has-error' : submitted && formvalidation.name.$invalid }">
+                    <label>Name</label>
+                    <input type="text" name="name" class="form-control" ng-model="Info.Name" ng-pattern="/^[a-zA-Z]*$/" ng-minlength="4" ng-maxlength="10" required>
+                    <p style="color:red" ng-show="formvalidation.name.$error.maxlength && !formvalidation.name.$error.pattern">Name Should Contain Maximum 10 Characters</p>
+                    <p style="color:red" ng-show="formvalidation.name.$error.minlength && !formvalidation.name.$error.pattern">Name Should Contain Minimum 3 Characters</p>
+                    <p style="color:red" ng-show="formvalidation.name.$error.pattern">Name Should Contain Only Letters</p>
+                    <p style="color:red" ng-show="submitted && formvalidation.name.$error.required">Name Is Required</p>
+                </div>
+
+                <!-- Mobile Number -->
+                <!-- Maximum Length Is Restricted To 10 By Giving Attribute 'maxlength="10" And Also If Mobile Number Is Not Starts With 7,8,9 It Shows Error Message-->
+                <!-- Mobile Number Pattern Is Given as ng-pattern="/(7|8|9)\d{9}/" -->
+                <div class="form-group" ng-class="{ 'has-error' : submitted && formvalidation.phonenumber.$invalid }" >
+                    <label>Mobile Number</label>
+                    <input type="text" name="phonenumber" class="form-control" ng-model="Info.PhoneNumber" maxlength="10" ng-pattern="/(7|8|9)\d{9}/" required>
+                    <p style="color:red" ng-show="formvalidation.phonenumber.$error.pattern">Invalid Mobile Number, Should Start With 7 or 8 or 9</p>
+                    <p style="color:red" ng-show="submitted && formvalidation.phonenumber.$error.required">Phone Number Is Required</p>
+                </div>
+                <!-- PAN Number -->
+                <!-- PAN Number Pattern Is Given as ng-pattern="/^([a-zA-Z]){5}([0-9]){4}([a-zA-Z]){1}?$/" And It Converts The Any Case To Uppercase Only Using style="text-transform: uppercase" -->
+                <div class="form-group" ng-class="{ 'has-error' : submitted && formvalidation.pannumber.$invalid  }" >
+                    <label>PAN Number</label>
+                    <input type="text" name="pannumber" class="form-control" ng-model="Info.PANNumber" maxlength="10" style="text-transform: uppercase" ng-pattern="/^([a-zA-Z]){5}([0-9]){4}([a-zA-Z]){1}?$/" required>
+                    <p style="color:red" ng-show="formvalidation.pannumber.$error.pattern">Invalid PAN Number</p>
+                    <p style="color:red" ng-show="submitted && formvalidation.pannumber.$error.required">PAN Number Is Required</p>
+                </div>
+
+                <!-- Email -->
+                <!-- Emailr Pattern Is Given as ng-pattern="/^.+@.+\..+$/" And It Converts The Any Case To Lowercase Only Using style="text-transform: lowercase" -->
+                <div class="form-group" ng-class="{'has-error': submitted && formvalidation.email.$invalid}" >
+                    <label>Email</label>
+                    <input type="email" name="email" class="form-control" ng-model="Info.Email" style="text-transform: lowercase" ng-pattern="/^.+@.+\..+$/" required>
+                    <p style="color:red" ng-show="submitted && formvalidation.email.$error.required">Email Is Required</p>
+                    <p style="color:red" ng-show="formvalidation.email.$error.pattern">Invalid Email</p>
+                </div>
+                <!-- Submit Button -->
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary" ng-click="SubmitForm()">Submit</button>
+                </div>
+                </div>
+            </div>
+    </form>
+
+</body>
+</html>
